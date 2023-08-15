@@ -8,7 +8,7 @@ items without touching the code.~~
 ~~Holidays and price list will follow the same logic as item list.~~
 
 Brand and types will be enums and tool will be of specific type.
-rough draft for testing checkout systems 
+rough draft for testing checkoutService systems 
 
 
 Possible updates:

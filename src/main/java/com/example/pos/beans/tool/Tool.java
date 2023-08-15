@@ -1,12 +1,13 @@
-package com.example.pos.beans.tools;
+package com.example.pos.beans.tool;
 
 import org.springframework.stereotype.Component;
 
-@Component
 public class Tool {
   private String code;
   private String brand;
   private String type;
+
+  public Tool(){}
 
   public Tool(String code, String brand, String type) {
     this.code = code;

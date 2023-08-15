@@ -1,16 +1,12 @@
 package com.example.pos;
 
 
-import com.example.pos.beans.tools.Brands;
-import com.example.pos.beans.tools.Tool;
-import com.example.pos.beans.tools.Types;
+import com.example.pos.services.CheckoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import java.lang.reflect.Type;
 
 @SpringBootApplication
 public class Main {
@@ -21,21 +17,25 @@ public class Main {
   //
 
 
+  //
+  // this is a bit of a primitive way to set up the map
+  // eventually, I think there will be 3 tables
+  // 1 for type/acronym, 1 for brand/acronym
+  // code seems like its built from those 2 acronyms
+  //
+
   public static void main (String[] args) {
     SpringApplication.run(Main.class, args);
   }
 
   @Bean
   @Autowired
-  public CommandLineRunner commandLineRunner(Brands brand, Types types, Tool tool) {
+  public CommandLineRunner commandLineRunner(CheckoutService checkoutService) {
     return runner-> {
-      mockUpCheckoutProcess();
+      checkoutService.process();
     };
   }
 
-  public void mockUpCheckoutProcess () {
-
-  }
 }
 
 

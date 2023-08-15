@@ -1,18 +1,29 @@
-package com.example.pos.rates;
+package com.example.pos.beans.rate;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class Rate {
+  String type;
   double dailyCharge;
-//  boolean weekDay;
   boolean weekend;
   boolean holiday;
 
-  public Rate(double dailyCharge, boolean weekend, boolean holiday) {
+  public Rate() {}
+
+  public Rate(String type, double dailyCharge, boolean weekend, boolean holiday) {
+    this.type = type;
     this.dailyCharge = dailyCharge;
     this.weekend = weekend;
     this.holiday = holiday;
+  }
+
+  public String getBrand() {
+    return type;
+  }
+
+  public void setBrand(String brand) {
+    this.type = brand;
   }
 
   public double getDailyCharge() {

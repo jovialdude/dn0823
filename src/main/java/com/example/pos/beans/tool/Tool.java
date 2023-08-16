@@ -4,12 +4,12 @@ import org.springframework.stereotype.Component;
 
 public class Tool {
   private String code;
-  private String brand;
-  private String type;
+  private Type type;
+  private Brand brand;
 
   public Tool(){}
 
-  public Tool(String code, String brand, String type) {
+  public Tool(String code, Type type, Brand brand) {
     this.code = code;
     this.brand = brand;
     this.type = type;
@@ -19,23 +19,12 @@ public class Tool {
     return code;
   }
 
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public String getBrand() {
+  public Brand getBrand() {
     return brand;
   }
 
-  public void setBrand(String brand) {
-    this.brand = brand;
-  }
-
-  public String getType() {
+  public Type getType() {
     return type;
   }
 
-  public void setType(String type) {
-    this.type = type;
-  }
 }

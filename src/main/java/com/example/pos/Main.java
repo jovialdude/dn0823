@@ -32,7 +32,7 @@ public class Main {
   @Autowired
   public CommandLineRunner commandLineRunner(CheckoutService checkoutService) {
     return runner-> {
-      checkoutService.process();
+      checkoutService.process("JAKR", "09/03/15", 5);
     };
   }
 

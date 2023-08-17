@@ -1,5 +1,7 @@
 package com.example.services.pos.services;
 
+import com.example.pos.exceptions.InvalidDayCountException;
+import com.example.pos.exceptions.InvalidDiscountPercentageException;
 import com.example.pos.repository.ToolDAOImpl;
 import com.example.pos.services.AgreementService;
 import com.example.pos.services.CheckoutService;
@@ -39,6 +41,35 @@ public class CheckoutServiceTest {
 
     while(scanner.hasNext()) {
       String newLine = scanner.nextLine();
+      String toolCode = scanner.nextLine().trim();
+      String date = scanner.nextLine().trim();
+      int numDays = scanner.nextInt();
+      int discount = scanner.nextInt();
+      checkoutService.process(toolCode, date, numDays, discount);
+    }
+  }
+
+  @Test(expected = InvalidDiscountPercentageException.class)
+  public void testInvalidDiscount() throws FileNotFoundException, ParseException {
+    File file = new File(classLoader.getResource("incorrectDiscountPercentage.txt").getFile());
+    Scanner scanner = new Scanner(file);
+
+    while(scanner.hasNext()) {
+      String toolCode = scanner.nextLine().trim();
+      String date = scanner.nextLine().trim();
+      int numDays = scanner.nextInt();
+      int discount = scanner.nextInt();
+      checkoutService.process(toolCode, date, numDays, discount);
+    }
+  }
+
+
+  @Test(expected = InvalidDayCountException.class)
+  public void testInvalidDayCount() throws FileNotFoundException, ParseException {
+    File file = new File(classLoader.getResource("incorrectRentalDays.txt").getFile());
+    Scanner scanner = new Scanner(file);
+
+    while(scanner.hasNext()) {
       String toolCode = scanner.nextLine().trim();
       String date = scanner.nextLine().trim();
       int numDays = scanner.nextInt();

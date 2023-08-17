@@ -4,6 +4,8 @@ import com.example.pos.beans.Charge;
 import com.example.pos.beans.RentalDate;
 import com.example.pos.beans.tool.Tool;
 import com.example.pos.beans.tool.Type;
+import com.example.pos.exceptions.InvalidDayCountException;
+import com.example.pos.exceptions.InvalidDiscountPercentageException;
 import com.example.pos.repository.ToolDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,17 +32,15 @@ public class CheckoutService {
     this.agreementService = agreementService;
   }
 
-//  public void
-
   public void process (String toolCode, String rentalStart, int rentalDays, int discountPercentage) throws ParseException {
     if (rentalDays<=1) {
-      throw new RuntimeException("Please enter a value greater than 1!");
+      throw new InvalidDayCountException("Please enter a value greater than 1!", new InvalidDayCountException());
     }
     if (discountPercentage<0 || discountPercentage > 100) {
-      throw new RuntimeException("Invalid discount amount. Please enter a value between 1-100");
+      throw new InvalidDiscountPercentageException("Invalid discount amount. Please enter a value between 1-100",
+          new InvalidDiscountPercentageException());
     }
 
-//    System.out.println("Start checkout process");
     Tool tool = toolDaoImpl.getTool(toolCode);
 
     RentalDate rentalDate = dateService.process(rentalStart, rentalDays, tool.getType());
@@ -49,6 +49,5 @@ public class CheckoutService {
 
     agreementService.process(tool, rentalDate, charge);
 
-//    System.out.println("Finish checkout process");
   }
 }

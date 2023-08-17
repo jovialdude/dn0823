@@ -14,7 +14,7 @@ public class AgreementService {
 
   public void printAgreementToConsole(Tool tool, RentalDate rentalDate, Charge charge) {
 //    System.out.println("Start agreement generation process");
-
+//    double
     StringBuilder sb = new StringBuilder();
     sb.append("Tool Code: " + tool.getCode() + "\n");
     sb.append("Tool Type: " + tool.getType() + "\n");
@@ -24,10 +24,10 @@ public class AgreementService {
     sb.append("Due Date: " + rentalDate.getEndDate() + "\n");
     sb.append("Daily Rental Charge: " + rentalDate.getRate() + "\n");
     sb.append("Days Charged: " + rentalDate.getDaysCharged() + "\n");
-    sb.append("Total Charge: " + charge.getGrossAmount() + "\n");
+    sb.append("Total Charge: " + decimalFormat.format(charge.getGrossAmount()) + "\n");
     sb.append("Discount Percent: " + charge.getDiscountPercentage() + "\n");
-    sb.append("Discount Amount: " + charge.getDiscountedAmount() + "\n");
-    sb.append("Final Charge: " + charge.getNetAmount() + "\n");
+    sb.append("Discount Amount: " + decimalFormat.format(charge.getDiscountedAmount()) + "\n");
+    sb.append("Final Charge: " + decimalFormat.format(charge.getNetAmount()) + "\n");
 
     System.out.println("*****Rental Agreement*****");
     System.out.println(sb.toString());

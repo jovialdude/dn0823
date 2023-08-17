@@ -9,8 +9,8 @@ import java.text.ParseException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
+import java.util.function.Predicate;
 
 /*
   This class will determine the number of paid days
@@ -18,8 +18,9 @@ import java.time.temporal.TemporalAdjusters;
  */
 @Component
 public class DateService {
-  private String INDEPENDENCE_DAY_USA = "07/04";
-  private String LABOR_DAY_USA = "09/01";
+  private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yy");
+  private String INDEPENDENCE_DAY_USA = "07/04/";
+  private String LABOR_DAY_USA = "09/01/";
   public DateService(){}
 
   //
@@ -31,9 +32,9 @@ public class DateService {
   //
   private int checkForJulyForth(LocalDate startDate, LocalDate dueDate) {
     int ans = 0;
-    int year = startDate.getYear();
+    int year = startDate.getYear()%100;
     String independenceDayUSA = this.INDEPENDENCE_DAY_USA+year;
-    LocalDate holiday = LocalDate.parse(independenceDayUSA);
+    LocalDate holiday = LocalDate.parse(independenceDayUSA, formatter);
     if (holiday.getDayOfWeek() == DayOfWeek.SATURDAY) {
       holiday = holiday.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY));
     }
@@ -51,9 +52,9 @@ public class DateService {
 
   private int checkForLaborDay(LocalDate startDate, LocalDate dueDate) {
     int ans = 0;
-    int year = startDate.getYear();
+    int year = startDate.getYear()%100;
     String laborDayUSA = this.LABOR_DAY_USA+year;
-    LocalDate holiday = LocalDate.parse(laborDayUSA).with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY));
+    LocalDate holiday = LocalDate.parse(laborDayUSA, formatter).with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY));
 
     if (startDate.isEqual(holiday) || dueDate.isEqual(holiday) ||
         (startDate.isBefore(holiday) && dueDate.isAfter(holiday))) {
@@ -62,7 +63,6 @@ public class DateService {
 
     return ans;
   }
-
 
   //
   // I try to optimize too much
@@ -76,14 +76,11 @@ public class DateService {
 
   private int weekendDiscountCheck(LocalDate startDate, LocalDate dueDate) {
     int res = 0;
-//    LocalDate nextWeekMonday = startDate.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
 
-    //i'm making an assumption that the rental will take less than a week in total
-    // and the weekend will fall between the dates
-    // the two will
+    Predicate<LocalDate> weekendFilter = date->(date.getDayOfWeek().equals(DayOfWeek.SATURDAY) ||
+        date.getDayOfWeek().equals(DayOfWeek.SUNDAY));
 
-//    if (startDate.isEqual())
-
+    long numWeekend = (startDate.plusDays(1L)).datesUntil(dueDate.plusDays(1L)).filter(weekendFilter).count();
     return res;
   }
 
@@ -107,16 +104,14 @@ public class DateService {
    * @return
    * @throws ParseException
    */
-  public RentalDate calculate(String startDateString, int numDays, Type type) throws ParseException {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yy");
+  public RentalDate process(String startDateString, int numDays, Type type) throws ParseException {
+//    System.out.println("Start rental date calculation process");
     LocalDate startDate = LocalDate.parse(startDateString, formatter);
     LocalDate dueDate = startDate.plusDays((long)numDays);
     int daysCharged = numDays - getDaysDiscounted(startDate, dueDate, type);
+    double rate = RatesBook.getRate(type).getDailyCharge();
 
-
-    System.out.println(startDate);
-    System.out.println(dueDate);
-//    System.out.println(totalFees);
-    return new RentalDate(startDate, dueDate, numDays, daysCharged);
+//    System.out.println("Finish rental date calculation process");
+    return new RentalDate(startDate, dueDate, numDays, daysCharged, rate);
   }
 }

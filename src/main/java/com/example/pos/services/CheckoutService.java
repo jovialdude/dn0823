@@ -1,46 +1,54 @@
 package com.example.pos.services;
 
+import com.example.pos.beans.Charge;
 import com.example.pos.beans.RentalDate;
-import com.example.pos.beans.tool.Brand;
 import com.example.pos.beans.tool.Tool;
 import com.example.pos.beans.tool.Type;
+import com.example.pos.repository.ToolDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class CheckoutService {
-  @Autowired
   DateService dateService;
+  ToolDAOImpl toolDaoImpl;
+  DiscountCalculationService discountCalculationService;
+  AgreementService agreementService;
 
-  private static List<Tool> toolList = new ArrayList<>();
-  private static List<String> toolCode = new ArrayList<>();
+  public CheckoutService(){}
 
-
-  static {
-    toolList.add(new Tool("CHSN", Type.Chainsaw, Brand.Stihl));
-    toolList.add(new Tool("LADW", Type.Ladder, Brand.Werner));
-    toolList.add(new Tool("JAKD", Type.Jackhammer, Brand.DeWalt));
-    toolList.add(new Tool("JAKR", Type.Jackhammer, Brand.Ridgid));
-
-    toolCode.add("CHSN");
-    toolCode.add("LADW");
-    toolCode.add("JAKD");
-    toolCode.add("JAKR");
+  @Autowired
+  public CheckoutService(DateService dateService,
+                         ToolDAOImpl toolDaoImpl,
+                         DiscountCalculationService discountCalculationService,
+                         AgreementService agreementService) {
+    this.dateService=dateService;
+    this.toolDaoImpl=toolDaoImpl;
+    this.discountCalculationService = discountCalculationService;
+    this.agreementService = agreementService;
   }
-
-  public RentalDate processDate(String startDate, int days, Type type) throws ParseException {
-    return dateService.calculate(startDate, days, type);
-   }
 
 //  public void
 
-  public void process (String toolCode, String rentalStart, int rentalDays) throws ParseException {
-//    Tool type = toolSelection();
-    Tool tool = toolList.get(toolCode.indexOf(toolCode));
-    RentalDate rentalDate = processDate(rentalStart, rentalDays, tool.getType());
+  public void process (String toolCode, String rentalStart, int rentalDays, int discountPercentage) throws ParseException {
+    if (rentalDays<=1) {
+      throw new RuntimeException("Please enter a value greater than 1!");
+    }
+    if (discountPercentage<0 || discountPercentage > 100) {
+      throw new RuntimeException("Invalid discount amount. Please enter a value between 1-100");
+    }
+
+//    System.out.println("Start checkout process");
+    Tool tool = toolDaoImpl.getTool(toolCode);
+
+    RentalDate rentalDate = dateService.process(rentalStart, rentalDays, tool.getType());
+
+    Charge charge = discountCalculationService.process(rentalDate.getRate(), rentalDays, discountPercentage);
+
+    agreementService.process(tool, rentalDate, charge);
+
+//    System.out.println("Finish checkout process");
   }
 }

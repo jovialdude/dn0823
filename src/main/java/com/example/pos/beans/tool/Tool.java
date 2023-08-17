@@ -27,4 +27,7 @@ public class Tool {
     return type;
   }
 
+  public String toString() {
+    return this.code + this.type.toString() + this.brand.toString();
+  }
 }

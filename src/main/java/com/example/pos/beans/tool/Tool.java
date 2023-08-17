@@ -1,7 +1,5 @@
 package com.example.pos.beans.tool;
 
-import org.springframework.stereotype.Component;
-
 public class Tool {
   private String code;
   private Type type;

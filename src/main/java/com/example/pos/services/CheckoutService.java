@@ -3,7 +3,6 @@ package com.example.pos.services;
 import com.example.pos.beans.Charge;
 import com.example.pos.beans.RentalDate;
 import com.example.pos.beans.tool.Tool;
-import com.example.pos.beans.tool.Type;
 import com.example.pos.exceptions.InvalidDayCountException;
 import com.example.pos.exceptions.InvalidDiscountPercentageException;
 import com.example.pos.repository.ToolDAOImpl;

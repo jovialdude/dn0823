@@ -1,7 +1,5 @@
 package com.example.pos.beans;
 
-import org.apache.tomcat.jni.Local;
-
 import java.time.LocalDate;
 
 public class RentalDate {

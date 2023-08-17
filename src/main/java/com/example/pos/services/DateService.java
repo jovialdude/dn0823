@@ -64,11 +64,6 @@ public class DateService {
     return ans;
   }
 
-  //
-  // I try to optimize too much
-  // i want to make holidayDiscountCheck such that
-  // it does not need to be modified for every new holiday
-  //
   private int holidayDiscountCheck(LocalDate startDate, LocalDate dueDate) {
     return checkForJulyForth(startDate, dueDate)
         + checkForLaborDay(startDate, dueDate);

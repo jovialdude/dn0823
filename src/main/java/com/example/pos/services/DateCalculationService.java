@@ -1,8 +1,10 @@
 package com.example.pos.services;
 
-import com.example.pos.beans.RatesBook;
 import com.example.pos.beans.RentalDate;
-import com.example.pos.beans.tool.Type;
+import com.example.pos.beans.rate.Rate;
+import com.example.pos.repository.interfaces.RateRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
@@ -17,11 +19,15 @@ import java.util.function.Predicate;
   Qxn: how will it handle multiple year rental ie 12/30/2022-5/1/2023
  */
 @Component
-public class DateService {
+public class DateCalculationService {
   private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yy");
   private String INDEPENDENCE_DAY_USA = "07/04/";
   private String LABOR_DAY_USA = "09/01/";
-  public DateService(){}
+
+//  @Autowired
+//  RateRepository rateRepository;
+
+  public DateCalculationService(){}
 
   //
   //guarantee discounted for the holidays once in checkForJulyForth
@@ -79,12 +85,12 @@ public class DateService {
     return res;
   }
 
-  public int getDaysDiscounted(LocalDate startDate, LocalDate dueDate, Type type) {
+  public int getDaysDiscounted(LocalDate startDate, LocalDate dueDate, Rate rate) {
     int numDayDiscounted = 0;
-    if (RatesBook.getRate(type).isHoliday()) {
+    if (rate.isHoliday()) {
       numDayDiscounted+=holidayDiscountCheck(startDate, dueDate);
     }
-    if (RatesBook.getRate(type).isWeekend()) {
+    if (rate.isWeekend()) {
       numDayDiscounted+=weekendDiscountCheck(startDate, dueDate);
     }
 
@@ -95,18 +101,15 @@ public class DateService {
    *
    * @param startDateString - date the customer book the rental
    * @param numDays - number of days the rental is checked out
-   * @param type - type of tool being checked out
    * @return
-   * @throws ParseException
    */
-  public RentalDate process(String startDateString, int numDays, Type type) throws ParseException {
-//    System.out.println("Start rental date calculation process");
+  public RentalDate process(String startDateString, int numDays, Rate rate){
     LocalDate startDate = LocalDate.parse(startDateString, formatter);
     LocalDate dueDate = startDate.plusDays((long)numDays);
-    int daysCharged = numDays - getDaysDiscounted(startDate, dueDate, type);
-    double rate = RatesBook.getRate(type).getDailyCharge();
+//    Rate rate = rateRepository.findById(type).get();
 
-//    System.out.println("Finish rental date calculation process");
-    return new RentalDate(startDate, dueDate, numDays, daysCharged, rate);
+    int daysCharged = numDays - getDaysDiscounted(startDate, dueDate, rate);
+
+    return new RentalDate(startDate, dueDate, numDays, daysCharged);
   }
 }

@@ -7,16 +7,14 @@ public class RentalDate {
   LocalDate endDate;
   int duration;
   int daysCharged;
-  double rate;
 
   public RentalDate(){}
 
-  public RentalDate(LocalDate startDate, LocalDate endDate, int duration, int daysCharged, double rate) {
+  public RentalDate(LocalDate startDate, LocalDate endDate, int duration, int daysCharged) {
     this.startDate=startDate;
     this.endDate=endDate;
     this.duration=duration;
     this.daysCharged=daysCharged;
-    this.rate = rate;
   }
 
   public LocalDate getStartDate() {
@@ -35,14 +33,10 @@ public class RentalDate {
     return daysCharged;
   }
 
-  public double getRate() {
-    return this.rate;
-  }
-
   public String toString() {
     return this.startDate + "/n"
         + this.endDate + "/n"
         + this.duration + "/n"
-        + this.daysCharged + "/n";
+        + this.daysCharged;
   }
 }

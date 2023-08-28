@@ -1,13 +1,23 @@
 package com.example.pos.beans.tool;
 
+import org.springframework.lang.NonNull;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Tool {
+  @Id
+  @NonNull
   private String code;
-  private Type type;
-  private Brand brand;
+  @NonNull
+  private String type;
+  @NonNull
+  private String brand;
 
   public Tool(){}
 
-  public Tool(String code, Type type, Brand brand) {
+  public Tool(String code, String type, String brand) {
     this.code = code;
     this.brand = brand;
     this.type = type;
@@ -17,15 +27,17 @@ public class Tool {
     return code;
   }
 
-  public Brand getBrand() {
+  public String getBrand() {
     return brand;
   }
 
-  public Type getType() {
+  public String getType() {
     return type;
   }
 
   public String toString() {
-    return this.code + this.type.toString() + this.brand.toString();
+    return this.code + "\n" +
+        this.type.toString() + "\n" +
+        this.brand.toString() + "\n";
   }
 }

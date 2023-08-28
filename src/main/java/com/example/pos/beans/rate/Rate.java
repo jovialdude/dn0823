@@ -1,11 +1,20 @@
 package com.example.pos.beans.rate;
 
-import org.springframework.stereotype.Component;
+import org.springframework.lang.NonNull;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Rate {
+  @Id
+  @NonNull
   private String type;
+  @NonNull
   private double dailyCharge;
+  @NonNull
   private boolean weekend;
+  @NonNull
   private boolean holiday;
 
   public Rate() {}

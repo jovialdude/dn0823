@@ -1,5 +1,6 @@
 package com.example.pos.services;
 
+import com.example.pos.beans.RentalDate;
 import com.example.pos.beans.agreement.Agreement;
 import com.example.pos.beans.rate.Rate;
 import com.example.pos.beans.tool.Tool;
@@ -59,6 +60,7 @@ public class AgreementCreationService implements AgreementService {
     Rate rate = getRate(tool.getType());
     logger.info(rate.toString());
 
-    dateCalculationService.process(agreement.getStartDate(), agreement.getNumRentalDays(), rate);
+    RentalDate rentalDate = dateCalculationService.process(agreement.getStartDate(), agreement.getNumRentalDays(), rate);
+    logger.info(rentalDate.toString());
   }
 }

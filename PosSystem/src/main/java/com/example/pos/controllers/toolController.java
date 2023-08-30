@@ -17,11 +17,11 @@ public class toolController {
   private AgreementService agreementCreationService;
 
   @PostMapping("/getToolContract")
-  public ResponseEntity<Agreement> getToolContract(String code, String checkoutDate, int numRentalDays) throws ParseException {
+  public ResponseEntity<String> getToolContract(String code, String checkoutDate, int numRentalDays) throws ParseException {
     if (numRentalDays<1){
       String message = "Expected more than days. Received" + numRentalDays;
 //      throw new InvalidDayCountException(message, new RuntimeException());
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
 
@@ -31,6 +31,6 @@ public class toolController {
     agreement.setNumRentalDays(numRentalDays);
     agreementCreationService.process(agreement);
 
-    return new ResponseEntity<Agreement>(agreement, HttpStatus.OK);
+    return new ResponseEntity<String>("message  here ",HttpStatus.OK);
   }
 }

@@ -4,6 +4,7 @@ import com.example.pos.beans.agreement.Agreement;
 import com.example.pos.beans.rate.Rate;
 import com.example.pos.beans.tool.Tool;
 import com.example.pos.exceptions.InvalidDayCountException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,10 +23,10 @@ public class AgreementCreationServiceTest {
   @Autowired
   private AgreementCreationService agreementService;
 
-
   private Map<String, Tool> toolSet;
   private Map<String, Rate> rateBook;
 
+  private ObjectMapper objectMapper;
 
   public AgreementCreationServiceTest() {
   }
@@ -42,6 +43,8 @@ public class AgreementCreationServiceTest {
     this.rateBook.put("Ladder", new Rate("Ladder", 1.99, true, true, false));
     this.rateBook.put("Chainsaw", new Rate("Chainsaw", 1.49, true, false, true));
     this.rateBook.put("Jackhammer", new Rate("Jackhammer", 2.99, true, false, false));
+
+    objectMapper=new ObjectMapper();
   }
   @Test
   public void testGettingTool() {

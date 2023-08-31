@@ -1,7 +1,9 @@
 package com.example.pos.services;
 
-import com.example.pos.beans.RentalDate;
+import com.example.pos.beans.RentalDatesDetails;
 import com.example.pos.beans.rate.Rate;
+import com.example.pos.services.interfaces.ChargeCalculation;
+import com.example.pos.services.interfaces.DateCalculation;
 import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
@@ -11,7 +13,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.function.Predicate;
 
 @Component
-public class DateCalculationService {
+public class DateCalculationService implements DateCalculation {
   private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yy");
   private String INDEPENDENCE_DAY_USA = "07/04/";
   private String LABOR_DAY_USA = "09/01/";
@@ -92,12 +94,16 @@ public class DateCalculationService {
    * @param numDays - number of days the rental is checked out
    * @return
    */
-  public RentalDate process(String startDateString, int numDays, Rate rate){
+  @Override
+  public void process(String startDateString, int numDays, Rate rate, RentalDatesDetails rentalDatesDetails){
     LocalDate startDate = LocalDate.parse(startDateString, formatter);
     LocalDate dueDate = startDate.plusDays((long)numDays);
 
     int daysCharged = numDays - getDaysDiscounted(startDate, dueDate, rate);
-
-    return new RentalDate(startDate, dueDate, numDays, daysCharged);
+    rentalDatesDetails.setStartDate(startDate);
+    rentalDatesDetails.setEndDate(dueDate);
+    rentalDatesDetails.setDuration(numDays);
+    rentalDatesDetails.setDaysCharged(daysCharged);
+//    return new RentalDatesDetails(startDate, dueDate, numDays, daysCharged);
   }
 }

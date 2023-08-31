@@ -1,14 +1,11 @@
 package com.example.pos.services;
 
-import com.example.pos.beans.agreement.Agreement;
 import com.example.pos.beans.rate.Rate;
 import com.example.pos.beans.tool.Tool;
-import com.example.pos.exceptions.InvalidDayCountException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,16 +16,16 @@ import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest()
-public class AgreementCreationServiceTest {
+public class AgreementCreationRequestCreationServiceTest {
   @Autowired
-  private AgreementCreationService agreementService;
+  private AgreementGenerationService agreementService;
 
   private Map<String, Tool> toolSet;
   private Map<String, Rate> rateBook;
 
   private ObjectMapper objectMapper;
 
-  public AgreementCreationServiceTest() {
+  public AgreementCreationRequestCreationServiceTest() {
   }
 
   @Before

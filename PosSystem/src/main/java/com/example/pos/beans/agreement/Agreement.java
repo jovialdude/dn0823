@@ -1,48 +1,45 @@
 package com.example.pos.beans.agreement;
 
+import com.example.pos.beans.charge.RentalCharge;
+import com.example.pos.beans.RentalDatesDetails;
+import com.example.pos.beans.tool.Tool;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Agreement {
-  private String code;
-  private String startDate;
-  private int numRentalDays;
+    Tool tool;
+    RentalDatesDetails rentalDatesDetails;
+    RentalCharge rentalCharge;
 
-  public Agreement() {}
+    public Agreement(){}
 
-  public Agreement(String code, String startDate, int numRentalDays) {
-    this.code=code;
-    this.startDate=startDate;
-    this.numRentalDays=numRentalDays;
-  }
+    public Agreement(Tool tool, RentalDatesDetails rentalDatesDetails, RentalCharge rentalCharge) {
+        this.tool = tool;
+        this.rentalDatesDetails = rentalDatesDetails;
+        this.rentalCharge = rentalCharge;
+    }
 
-  public String getCode() {
-    return code;
-  }
+    public Tool getTool() {
+        return tool;
+    }
 
-  public void setCode(String code) {
-    this.code = code;
-  }
+    public void setTool(Tool tool) {
+        this.tool = tool;
+    }
 
-  public String getStartDate() {
-    return startDate;
-  }
+    public RentalDatesDetails getRentalDatesDetails() {
+        return rentalDatesDetails;
+    }
 
-  public void setStartDate(String days) {
-    this.startDate = startDate;
-  }
+    public void setRentalDatesDetails(RentalDatesDetails rentalDatesDetails) {
+        this.rentalDatesDetails = rentalDatesDetails;
+    }
 
-  public int getNumRentalDays() {
-    return numRentalDays;
-  }
+    public RentalCharge getCharge() {
+        return rentalCharge;
+    }
 
-  public void setNumRentalDays(int numRentalDays) {
-    this.numRentalDays = numRentalDays;
-  }
-
-  public String toString() {
-    return this.code + " "
-        + this.startDate + " "
-        + this.numRentalDays + " ";
-  }
+    public void setCharge(RentalCharge rentalCharge) {
+        this.rentalCharge = rentalCharge;
+    }
 }

@@ -21,7 +21,7 @@ Use CMD/Terminal/Postman to make an HTTP request to
     
 
 //Todo: add chargeservice, and shift to an xml based approach as oppose to the object specific approach.
-//Deploy PosSystem and ToolAPI to separate kubernetes pods in effort to scale them.
+//Image the Deploy PosSystem and ToolAPI with Docker and deploy to separate kubernetes pods in effort to scale.
 
 Improvements:
     Shifting to XML contract base objects will make the records are consistent.

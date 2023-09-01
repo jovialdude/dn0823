@@ -2,23 +2,29 @@ package com.example.pos.services;
 
 import com.example.pos.beans.RentalDatesDetails;
 import com.example.pos.beans.rate.Rate;
-import com.example.pos.services.interfaces.ChargeCalculation;
 import com.example.pos.services.interfaces.DateCalculation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
+import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Component
 public class DateCalculationService implements DateCalculation {
-  private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yy");
+  private final DateTimeFormatter formatter;
   private String INDEPENDENCE_DAY_USA = "07/04/";
   private String LABOR_DAY_USA = "09/01/";
 
-  public DateCalculationService(){}
+  private final Logger log = LoggerFactory.getLogger(DateCalculationService.class);
+  public DateCalculationService(){
+    formatter = DateTimeFormatter.ofPattern("MM/dd/yy");
+  }
 
   //
   //guarantee discounted for the holidays once in checkForJulyForth
@@ -61,28 +67,32 @@ public class DateCalculationService implements DateCalculation {
     return ans;
   }
 
-  private int holidayDiscountCheck(LocalDate startDate, LocalDate dueDate) {
+  private int countHolidays(LocalDate startDate, LocalDate dueDate) {
     return checkForJulyForth(startDate, dueDate)
         + checkForLaborDay(startDate, dueDate);
   }
 
-  private int weekendDiscountCheck(LocalDate startDate, LocalDate dueDate) {
-    int res = 0;
+  private int countWeekendDays(LocalDate startDate, LocalDate dueDate) {
+    Predicate<LocalDate> weekendFilter =
+        date->
+            (date.getDayOfWeek().equals(DayOfWeek.SATURDAY)
+                || date.getDayOfWeek().equals(DayOfWeek.SUNDAY)
+            );
 
-    Predicate<LocalDate> weekendFilter = date->(date.getDayOfWeek().equals(DayOfWeek.SATURDAY) ||
-        date.getDayOfWeek().equals(DayOfWeek.SUNDAY));
-
-    long numWeekend = (startDate.plusDays(1L)).datesUntil(dueDate.plusDays(1L)).filter(weekendFilter).count();
-    return res;
+    List<LocalDate> numBusinessDays =
+        (startDate.plusDays(1L))
+            .datesUntil(dueDate.plusDays(1L))
+            .filter(weekendFilter).collect(Collectors.toList());
+    return numBusinessDays.size();
   }
 
   public int getDaysDiscounted(LocalDate startDate, LocalDate dueDate, Rate rate) {
     int numDayDiscounted = 0;
-    if (rate.isHoliday()) {
-      numDayDiscounted+=holidayDiscountCheck(startDate, dueDate);
+    if (!rate.isChargeHoliday()) {
+      numDayDiscounted+= countHolidays(startDate, dueDate);
     }
-    if (rate.isWeekend()) {
-      numDayDiscounted+=weekendDiscountCheck(startDate, dueDate);
+    if (!rate.isChargeWeekend()) {
+      numDayDiscounted+= countWeekendDays(startDate, dueDate);
     }
 
     return numDayDiscounted;
@@ -96,14 +106,17 @@ public class DateCalculationService implements DateCalculation {
    */
   @Override
   public void process(String startDateString, int numDays, Rate rate, RentalDatesDetails rentalDatesDetails){
+    log.info("Start date calculation process");
     LocalDate startDate = LocalDate.parse(startDateString, formatter);
     LocalDate dueDate = startDate.plusDays((long)numDays);
 
     int daysCharged = numDays - getDaysDiscounted(startDate, dueDate, rate);
-    rentalDatesDetails.setStartDate(startDate);
-    rentalDatesDetails.setEndDate(dueDate);
+
+    rentalDatesDetails.setStartDate(startDateString);
+    rentalDatesDetails.setEndDate(dueDate.format(formatter));
     rentalDatesDetails.setDuration(numDays);
     rentalDatesDetails.setDaysCharged(daysCharged);
-//    return new RentalDatesDetails(startDate, dueDate, numDays, daysCharged);
+    rentalDatesDetails.setRate(rate);
+    log.info("Finish date calculation process");
   }
 }

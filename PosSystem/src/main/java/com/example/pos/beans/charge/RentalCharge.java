@@ -4,16 +4,14 @@ public class RentalCharge {
   double grossCharge;
   double discountedAmount;
   double netCharge;
-  double dailyRate;
   int discountPercentage;
 
   public RentalCharge(){}
 
-  public RentalCharge(double grossCharge, double discountedAmounted, double netCharge, double dailyRate, int discountPercentage) {
+  public RentalCharge(double grossCharge, double discountedAmount, double netCharge, int discountPercentage) {
     this.grossCharge = grossCharge;
-    this.discountedAmount = discountedAmounted;
+    this.discountedAmount = discountedAmount;
     this.netCharge = netCharge;
-    this.dailyRate = dailyRate;
     this.discountPercentage = discountPercentage;
   }
 
@@ -33,20 +31,12 @@ public class RentalCharge {
     this.discountedAmount = discountedAmount;
   }
 
-  public double getnetCharge() {
+  public double getNetCharge() {
     return netCharge;
   }
 
-  public void setnetCharge(double netCharge) {
+  public void setNetCharge(double netCharge) {
     this.netCharge = netCharge;
-  }
-
-  public double getDailyRate() {
-    return dailyRate;
-  }
-
-  public void setDailyRate(double dailyRate) {
-    this.dailyRate = dailyRate;
   }
 
   public int getDiscountPercentage() {
@@ -56,12 +46,11 @@ public class RentalCharge {
   public void setDiscountPercentage(int discountPercentage) {
     this.discountPercentage = discountPercentage;
   }
-  
+
   public String toString () {
     return this.grossCharge + " " 
         + this.discountedAmount + " "
         + this.netCharge + " "
-        + this.dailyRate + " "
         + this.discountPercentage + " ";
   }
 }

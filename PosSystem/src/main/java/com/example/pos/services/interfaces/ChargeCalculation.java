@@ -7,5 +7,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface ChargeCalculation {
-  void process(double rate, int totalDays, int chargedDays, int discountRate, RentalCharge rentalCharge);
+  void process(double rate, int chargedDays, int discountRate, RentalCharge rentalCharge);
 }

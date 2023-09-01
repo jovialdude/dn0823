@@ -35,6 +35,14 @@ public class Agreement {
         this.rentalDatesDetails = rentalDatesDetails;
     }
 
+    public RentalCharge getRentalCharge() {
+        return rentalCharge;
+    }
+
+    public void setRentalCharge(RentalCharge rentalCharge) {
+        this.rentalCharge = rentalCharge;
+    }
+
     public RentalCharge getCharge() {
         return rentalCharge;
     }

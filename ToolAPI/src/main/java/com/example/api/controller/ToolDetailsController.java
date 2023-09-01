@@ -25,20 +25,20 @@ public class ToolDetailsController {
     this.toolSet.put("JAKR", new Tool("JAKR", "Jackhammer", "Ridgid"));
 
     this.rateBook = new HashMap<>();
-    this.rateBook.put("ladder", new Rate("Ladder", 1.99, true, true, false));
-    this.rateBook.put("chainsaw", new Rate("Chainsaw", 1.49, true, false, true));
-    this.rateBook.put("jackhammer", new Rate("Jackhammer", 2.99, true, false, false));
+    this.rateBook.put("Ladder", new Rate("Ladder", 1.99, true, true, false));
+    this.rateBook.put("Chainsaw", new Rate("Chainsaw", 1.49, true, false, true));
+    this.rateBook.put("Jackhammer", new Rate("Jackhammer", 2.99, true, false, false));
   }
 
   @GetMapping("/getTool/{id}")
   public Tool getTool(@PathVariable String id) throws IOException {
-    logger.info(this.toolSet.get(id.toUpperCase()).toString());
+    logger.info(this.toolSet.get(id).toString());
     return this.toolSet.get(id);
   }
 
   @GetMapping("/getRate/{id}")
   public Rate getRate(@PathVariable String id) throws IOException {
-    logger.info(this.rateBook.get(id.toLowerCase()).toString());
+    logger.info(this.rateBook.get(id).toString());
     return this.rateBook.get(id);
   }
 }

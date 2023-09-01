@@ -22,8 +22,12 @@ public class AgreementController {
   public ResponseEntity<String> getToolContract(@RequestParam String code, @RequestParam String date,
                                                 @RequestParam int days, @RequestParam int discount) throws ParseException, JsonProcessingException {
     if (days<1){
-      String message = "Expected more than days. Received" + days;
+      String message = "Expected more than days. Received " + days;
 //      throw new InvalidDayCountException(message, new RuntimeException());
+      return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
+    if(discount>100 || discount<0) {
+      String message = "Expected discount value between 0-100. Received " + discount;
       return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
@@ -39,6 +43,6 @@ public class AgreementController {
 
     agreementCreationService.process(agreementCreationRequest, agreement);
 
-    return new ResponseEntity<String>(objectMapper.writeValueAsString(agreementCreationRequest),HttpStatus.OK);
+    return new ResponseEntity<String>(objectMapper.writeValueAsString(agreement),HttpStatus.OK);
   }
 }

@@ -32,11 +32,11 @@ public class AgreementControllerTest {
   @MockBean
   private AgreementGenerationService agreementGenerationService;
 
-  @MockBean
-  private ChargeCalculationService chargeCalculationService;
+//  @MockBean
+//  private ChargeCalculationService chargeCalculationService;
 
-  @MockBean
-  private DateCalculationService dateCalculationService;
+//  @MockBean
+//  private DateCalculationService dateCalculationService;
 
   private final ObjectMapper objectMapper;
 
@@ -66,7 +66,8 @@ public class AgreementControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
         )
         .andDo(print())
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest())
+        .andExpect(content().string("Expected more than days. Received 0"));
   }
 
   @Test
@@ -89,7 +90,8 @@ public class AgreementControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
         )
         .andDo(print())
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest())
+        .andExpect(content().string("Expected discount value between 0-100. Received 101"));
   }
   @Test
   public void LADW070220Three10() throws Exception {

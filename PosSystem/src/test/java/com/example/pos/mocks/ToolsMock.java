@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ToolsMock {
-  private static Map<String, Tool> toolSet;
+  private static final Map<String, Tool> toolSet;
 
   static {
     toolSet = new HashMap<>();

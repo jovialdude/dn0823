@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RatesMock {
-  private static Map<String, Rate> rateBook;
+  private static final Map<String, Rate> rateBook;
 
   static {
     rateBook = new HashMap<>();

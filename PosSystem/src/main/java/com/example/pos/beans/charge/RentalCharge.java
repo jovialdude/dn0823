@@ -1,5 +1,8 @@
 package com.example.pos.beans.charge;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class RentalCharge {
   double grossCharge;
   double discountedAmount;

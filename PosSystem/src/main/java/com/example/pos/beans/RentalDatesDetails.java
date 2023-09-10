@@ -1,39 +1,37 @@
 package com.example.pos.beans;
 
-import com.example.pos.beans.rate.Rate;
-
 import java.time.LocalDate;
 
 public class RentalDatesDetails {
-  String startDate;
-  String endDate;
+  LocalDate startDate;
+  LocalDate endDate;
   int duration;
   int daysCharged;
-  Rate rate;
+  double dailyRate;
 
   public RentalDatesDetails(){}
 
-  public RentalDatesDetails(String startDate, String endDate, int duration, int daysCharged, Rate rate) {
+  public RentalDatesDetails(LocalDate startDate, LocalDate endDate, int duration, int daysCharged, double dailyRate) {
     this.startDate=startDate;
     this.endDate=endDate;
     this.duration=duration;
     this.daysCharged=daysCharged;
-    this.rate=rate;
+    this.dailyRate = dailyRate;
   }
 
-  public String getStartDate() {
+  public LocalDate getStartDate() {
     return startDate;
   }
 
-  public void setStartDate(String startDate) {
+  public void setStartDate(LocalDate startDate) {
     this.startDate = startDate;
   }
 
-  public String getEndDate() {
+  public LocalDate getEndDate() {
     return endDate;
   }
 
-  public void setEndDate(String endDate) {
+  public void setEndDate(LocalDate endDate) {
     this.endDate = endDate;
   }
 
@@ -53,12 +51,12 @@ public class RentalDatesDetails {
     this.daysCharged = daysCharged;
   }
 
-  public Rate getRate() {
-    return rate;
+  public double getDailyRate() {
+    return dailyRate;
   }
 
-  public void setRate(Rate rate) {
-    this.rate = rate;
+  public void setDailyRate(double dailyRate) {
+    this.dailyRate = dailyRate;
   }
 
   public String toString() {
@@ -66,6 +64,6 @@ public class RentalDatesDetails {
         + this.endDate.toString() + " "
         + this.duration + " "
         + this.daysCharged + " "
-        + this.rate.toString();
+        + this.dailyRate;
   }
 }

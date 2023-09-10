@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://pos.example.com/generated"
+        xmlns:tns="http://pos.example.com/generated"
+        elementFormDefault="qualified">
+
+  <xs:element name="ToolCheckoutRequest" type="tns:Request"></xs:element>
+  <xs:element name="ToolCheckoutResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Request" type="tns:Request"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+
+  <xs:complexType name = "Request">
+    <xs:sequence>
+      <xs:element name="code" type="xs:string"/>
+      <xs:element name="checkoutDate" type="xs:string"/>
+      <xs:element name="duration" type="xs:int"/>
+      <xs:element name="discount" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+
+
+<!--  <xs:simpleType name="ToolType">-->
+<!--    <xs:restriction base="xs:string">-->
+<!--      <xs:enumeration value="Chainsaw"/>-->
+<!--      <xs:enumeration value="Ladder"/>-->
+<!--      <xs:enumeration value="Jackhammer"/>-->
+<!--    </xs:restriction>-->
+<!--  </xs:simpleType>-->
+
+<!--  <xs:simpleType name="ToolBrand">-->
+<!--    <xs:restriction base="xs:string">-->
+<!--      <xs:enumeration value="Stihl"/>-->
+<!--      <xs:enumeration value="Werner"/>-->
+<!--      <xs:enumeration value="Dewalt"/>-->
+<!--      <xs:enumeration value="Ridgid"/>-->
+<!--    </xs:restriction>-->
+<!--  </xs:simpleType>-->
+
+<!--  <xs:element name="Tool">-->
+<!--    <xs:complexType>-->
+<!--      <xs:sequence>-->
+<!--        <xs:element name="ToolCode" type="xs:string"/>-->
+<!--        <xs:element name="ToolType" type="tns:ToolType"/>-->
+<!--        <xs:element name="ToolBrand" type="tns:ToolBrand"/>-->
+<!--      </xs:sequence>-->
+<!--    </xs:complexType>-->
+<!--  </xs:element>-->
+
+
+<!--  <xs:element name="Rate">-->
+<!--    <xs:complexType>-->
+<!--      <-->
+<!--    </xs:complexType>-->
+<!--  </xs:element>-->
+
+</xs:schema>

@@ -6,15 +6,15 @@ import org.springframework.stereotype.Component;
 public class AgreementCreationRequest {
   private String code;
   private String startDate;
-  private int numRentalDays;
+  private int duration;
   private int discount;
 
   public AgreementCreationRequest() {}
 
-  public AgreementCreationRequest(String code, String startDate, int numRentalDays, int discount) {
+  public AgreementCreationRequest(String code, String startDate, int duration, int discount) {
     this.code=code;
     this.startDate=startDate;
-    this.numRentalDays=numRentalDays;
+    this.duration = duration;
     this.discount=discount;
   }
 
@@ -34,12 +34,12 @@ public class AgreementCreationRequest {
     this.startDate = startDate;
   }
 
-  public int getNumRentalDays() {
-    return numRentalDays;
+  public int getDuration() {
+    return duration;
   }
 
-  public void setNumRentalDays(int numRentalDays) {
-    this.numRentalDays = numRentalDays;
+  public void setDuration(int duration) {
+    this.duration = duration;
   }
 
   public int getDiscount() { return discount; }
@@ -49,7 +49,7 @@ public class AgreementCreationRequest {
   public String toString() {
     return this.code + " "
         + this.startDate + " "
-        + this.numRentalDays + " "
+        + this.duration + " "
         + this.discount;
   }
 }

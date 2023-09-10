@@ -7,18 +7,18 @@ import org.springframework.stereotype.Component;
 public class Rate {
   private String type;
   private double dailyCharge;
-  private boolean chargeWeekday;
-  private boolean chargeWeekend;
-  private boolean chargeHoliday;
+  private boolean weekday;
+  private boolean weekend;
+  private boolean holiday;
 
   public Rate() {}
 
-  public Rate(String type, double dailyCharge, boolean chargeWeekday, boolean chargeWeekend, boolean chargeHoliday) {
+  public Rate(String type, double dailyCharge, boolean weekday, boolean weekend, boolean holiday) {
     this.type = type;
     this.dailyCharge = dailyCharge;
-    this.chargeWeekday = chargeWeekday;
-    this.chargeWeekend = chargeWeekend;
-    this.chargeHoliday = chargeHoliday;
+    this.weekday = weekday;
+    this.weekend = weekend;
+    this.holiday = holiday;
   }
 
   public String getType() {
@@ -29,14 +29,14 @@ public class Rate {
     return dailyCharge;
   }
 
-  public boolean getChargeWeekday() { return chargeWeekday; }
+  public boolean getWeekday() { return weekday; }
 
-  public boolean isChargeWeekend() {
-    return chargeWeekend;
+  public boolean isWeekend() {
+    return weekend;
   }
 
-  public boolean isChargeHoliday() {
-    return chargeHoliday;
+  public boolean isHoliday() {
+    return holiday;
   }
 
   public String toString() {

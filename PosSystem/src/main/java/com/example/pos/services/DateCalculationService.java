@@ -88,10 +88,10 @@ public class DateCalculationService implements DateCalculation {
 
   public int getDaysDiscounted(LocalDate startDate, LocalDate dueDate, Rate rate) {
     int numDayDiscounted = 0;
-    if (!rate.isChargeHoliday()) {
+    if (!rate.isHoliday()) {
       numDayDiscounted+= countHolidays(startDate, dueDate);
     }
-    if (!rate.isChargeWeekend()) {
+    if (!rate.isWeekend()) {
       numDayDiscounted+= countWeekendDays(startDate, dueDate);
     }
 
@@ -112,11 +112,11 @@ public class DateCalculationService implements DateCalculation {
 
     int daysCharged = numDays - getDaysDiscounted(startDate, dueDate, rate);
 
-    rentalDatesDetails.setStartDate(startDateString);
-    rentalDatesDetails.setEndDate(dueDate.format(formatter));
+    rentalDatesDetails.setStartDate(startDate);
+    rentalDatesDetails.setEndDate(dueDate);
     rentalDatesDetails.setDuration(numDays);
     rentalDatesDetails.setDaysCharged(daysCharged);
-    rentalDatesDetails.setRate(rate);
+    rentalDatesDetails.setDailyRate(rate.getDailyCharge());
     log.info("Finish date calculation process");
   }
 }

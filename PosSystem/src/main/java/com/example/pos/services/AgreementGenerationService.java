@@ -72,7 +72,7 @@ public class AgreementGenerationService implements AgreementGeneration {
     string+="Rental Days: " + agreement.getRentalDatesDetails().getDuration() + "\n";
     string+="Checkout Date: " + agreement.getRentalDatesDetails().getStartDate() + "\n";
     string+="Due Date: " + agreement.getRentalDatesDetails().getEndDate() + "\n";
-    string+="Daily Rate: $" + dcf.format(agreement.getRentalDatesDetails().getRate().getDailyCharge()) + "\n";
+    string+="Daily Rate: $" + dcf.format(agreement.getRentalDatesDetails().getDailyRate()) + "\n";
     string+="Charged Days: " + agreement.getRentalDatesDetails().getDaysCharged() + "\n";
     string+="Pre-discount Charge: $" + dcf.format(agreement.getCharge().getGrossCharge()) + "\n";
     string+="Discount Percent: " + agreement.getCharge().getDiscountPercentage() + "\n";
@@ -92,7 +92,7 @@ public class AgreementGenerationService implements AgreementGeneration {
     log.debug(rate.toString());
 
     RentalDatesDetails rentalDatesDetails = new RentalDatesDetails();
-    dateCalculationService.process(agreementCreationRequest.getStartDate(), agreementCreationRequest.getNumRentalDays(), rate, rentalDatesDetails);
+    dateCalculationService.process(agreementCreationRequest.getStartDate(), agreementCreationRequest.getDuration(), rate, rentalDatesDetails);
     log.debug(rentalDatesDetails.toString());
 
     RentalCharge rentalCharge = new RentalCharge();

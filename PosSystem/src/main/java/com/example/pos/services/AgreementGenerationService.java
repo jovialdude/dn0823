@@ -6,6 +6,8 @@ import com.example.pos.beans.request.AgreementCreationRequest;
 import com.example.pos.beans.agreement.Agreement;
 import com.example.pos.beans.rate.Rate;
 import com.example.pos.beans.tool.Tool;
+import com.example.pos.repositories.RateRepository;
+import com.example.pos.repositories.ToolRepository;
 import com.example.pos.services.interfaces.AgreementGeneration;
 import com.example.pos.services.interfaces.ChargeCalculation;
 import org.slf4j.Logger;
@@ -27,6 +29,12 @@ public class AgreementGenerationService implements AgreementGeneration {
   @Autowired
   ChargeCalculation chargeCalculationService;
 
+  @Autowired
+  RateRepository rateRepository;
+
+  @Autowired
+  ToolRepository toolRepository;
+
   private String BASE_URL="http://localhost:8282";
 
   public AgreementGenerationService(){}
@@ -34,31 +42,11 @@ public class AgreementGenerationService implements AgreementGeneration {
   private final Logger log = LoggerFactory.getLogger(AgreementGenerationService.class);
 
   public Tool getTool(String tool) {
-    WebClient client = WebClient.builder()
-        .baseUrl(BASE_URL)
-        .build();
-
-    Tool response = client.get()
-        .uri(uriBuilder -> uriBuilder.path("/v1/getTool/" + tool).build())
-        .retrieve()
-        .bodyToMono(Tool.class)
-        .block();
-
-    return response;
+    return toolRepository.getTool(tool);
   }
 
   public Rate getRate(String type) {
-    WebClient client = WebClient.builder()
-        .baseUrl(BASE_URL)
-        .build();
-
-    Rate response = client.get()
-        .uri(uriBuilder -> uriBuilder.path("/v1/getRate/" + type).build())
-        .retrieve()
-        .bodyToMono(Rate.class)
-        .block();
-
-    return response;
+    return rateRepository.getRate(type);
   }
 
   private void logAgreement(Agreement agreement) {

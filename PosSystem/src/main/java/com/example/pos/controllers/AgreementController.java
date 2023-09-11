@@ -24,11 +24,18 @@ public class AgreementController {
   @Autowired
   private AgreementGeneration agreementGenerationService;
 
+  private ObjectMapper objectMapper;
   private final Logger log = LoggerFactory.getLogger(AgreementController.class);
 
-  @PostMapping(value = "/getAgreement",
+  public AgreementController(){
+    objectMapper = new ObjectMapper()
+        .registerModule(new JavaTimeModule())
+        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+  }
+
+  @GetMapping(value = "/agreement",
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> getToolContract(@RequestBody AgreementCreationRequest request) throws ParseException, JsonProcessingException {
+  public ResponseEntity<String> getToolContract(AgreementCreationRequest request) throws ParseException, JsonProcessingException {
     if (request.getDuration()<1){
       String message = "Expected more than days. Received " + request.getDuration();
       log.error(message, new InvalidDayCountException().getStackTrace());
@@ -43,15 +50,18 @@ public class AgreementController {
       return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
-    ObjectMapper objectMapper = new ObjectMapper()
-        .registerModule(new JavaTimeModule())
-        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-
     Agreement agreement = new Agreement();
 
     agreementGenerationService.process(request, agreement);
 
 //    return Mono.just(new ResponseEntity<>(objectMapper.writeValueAsString(agreement),HttpStatus.OK));
     return new ResponseEntity<>(objectMapper.writeValueAsString(agreement), HttpStatus.OK);
+  }
+
+  @PostMapping(value = "/agreement",
+  consumes = MediaType.APPLICATION_JSON_VALUE,
+  produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<String> saveToolAgreement(@RequestBody Agreement agreement) {
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 }

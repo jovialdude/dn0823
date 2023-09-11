@@ -1,12 +1,5 @@
 package com.example.pos.controller;
 
-
-import com.example.pos.beans.RentalDatesDetails;
-import com.example.pos.beans.agreement.Agreement;
-import com.example.pos.beans.charge.RentalCharge;
-import com.example.pos.beans.rate.Rate;
-import com.example.pos.beans.request.AgreementCreationRequest;
-import com.example.pos.beans.tool.Tool;
 import com.example.pos.controllers.AgreementController;
 import com.example.pos.mocks.RatesMock;
 import com.example.pos.mocks.ToolsMock;
@@ -16,16 +9,13 @@ import com.example.pos.services.DateCalculationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -67,17 +57,22 @@ public class AgreementControllerTest {
     when(agreementGenerationService.getTool("CHNS"))
         .thenReturn(ToolsMock.getTool("CHNS"));
 
+//    Map<String, String> params = new MultiValueMap<>() {}
+
 //    when()
+//    List<
+//    LinkedMultiValueMap<String, new ArrayList<>(){String, Integer}> params = new LinkedMultiValueMap<>();
+//    params.add("Code", "CHNS");
+//    params.add("startDate", "09/03/15");
+//    params.add("duration", "0");
+//    params.add("discount", "0");
     this.mockMvc
         .perform(MockMvcRequestBuilders
-            .post("/getAgreement")
-            .content(
-                objectMapper.writeValueAsString(
-                    new AgreementCreationRequest(
-                        "CHNS","09/03/15",0,0)
-                )
-            )
-            .contentType(MediaType.APPLICATION_JSON)
+            .get("/agreement")
+            .param("code", "CHNS")
+            .param("startDate", "09/03/15")
+            .param("duration", "0")
+            .param("discount", "0")
         )
         .andDo(print())
         .andExpect(status().isBadRequest())
@@ -94,14 +89,11 @@ public class AgreementControllerTest {
 
     this.mockMvc
         .perform(MockMvcRequestBuilders
-            .post("/getAgreement")
-            .content(
-                objectMapper.writeValueAsString(
-                    new AgreementCreationRequest(
-                        "JAKR","09/03/15",5,101)
-                )
-            )
-            .contentType(MediaType.APPLICATION_JSON)
+            .get("/agreement")
+            .param("code", "JAKR")
+            .param("startDate", "09/03/15")
+            .param("duration", "5")
+            .param("discount", "101")
         )
         .andDo(print())
         .andExpect(status().isBadRequest())
@@ -162,14 +154,11 @@ public class AgreementControllerTest {
 
     this.mockMvc
         .perform(MockMvcRequestBuilders
-            .post("/getAgreement")
-            .content(
-                objectMapper.writeValueAsString(
-                    new AgreementCreationRequest(
-                        "CHNS","07/02/15",5,25)
-                )
-            )
-            .contentType(MediaType.APPLICATION_JSON)
+            .get("/agreement")
+            .param("code", "CHNS")
+            .param("startDate", "07/02/15")
+            .param("duration", "5")
+            .param("discount", "25")
         )
         .andDo(print())
         .andExpect(status().isOk());
@@ -184,14 +173,11 @@ public class AgreementControllerTest {
 
     this.mockMvc
         .perform(MockMvcRequestBuilders
-            .post("/getAgreement")
-            .content(
-                objectMapper.writeValueAsString(
-                    new AgreementCreationRequest(
-                        "JAKD","09/03/15",6,0)
-                )
-            )
-            .contentType(MediaType.APPLICATION_JSON)
+            .get("/agreement")
+            .param("code", "JAKD")
+            .param("startDate", "09/03/15")
+            .param("duration", "6")
+            .param("discount", "0")
         )
         .andDo(print())
         .andExpect(status().isOk());
@@ -206,14 +192,11 @@ public class AgreementControllerTest {
 
     this.mockMvc
         .perform(MockMvcRequestBuilders
-            .post("/getAgreement")
-            .content(
-                objectMapper.writeValueAsString(
-                    new AgreementCreationRequest(
-                        "JAKR","07/02/20",4,50)
-                )
-            )
-            .contentType(MediaType.APPLICATION_JSON)
+            .get("/agreement")
+            .param("code", "JAKR")
+            .param("startDate", "07/02/22")
+            .param("duration", "4")
+            .param("discount", "50")
         )
         .andDo(print())
         .andExpect(status().isOk());

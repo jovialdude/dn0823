@@ -62,6 +62,6 @@ public class AgreementController {
   consumes = MediaType.APPLICATION_JSON_VALUE,
   produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<String> saveToolAgreement(@RequestBody Agreement agreement) {
-    return new ResponseEntity<>(HttpStatus.OK);
+    return new ResponseEntity<>("agreement saved", HttpStatus.OK);
   }
 }
